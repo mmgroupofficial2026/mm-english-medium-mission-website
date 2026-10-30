@@ -57,7 +57,7 @@ nav a:hover{color:var(--gold)}
  box-shadow:0 7px 22px #0004;
  transition:transform .2s,box-shadow .2s
 }
- .nav-cta{
+.nav-cta{
   padding:8px 18px;
   min-height:auto;
   white-space:nowrap;
@@ -189,19 +189,83 @@ h2{font-size:clamp(28px,4vw,44px);line-height:1.15;margin-top:7px}
 }
 
 /* NOTICE */
-.notice-section{background:#04152b}
-.notice-list{display:grid;gap:12px;max-width:900px;margin:auto}
+/* NOTICE */
+.notice-section{
+ background:#04152b;
+}
+
+.notice-list{
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+ max-width:900px;
+ max-height:360px;
+ overflow-y:auto;
+ margin:auto;
+ padding:5px 12px 5px 5px;
+ border:1px solid #24476d;
+ border-radius:12px;
+ background:#061a35;
+}
+
 .notice-item{
- display:flex;align-items:center;justify-content:space-between;gap:15px;
- background:#09294c;border:1px solid #000;border-radius:10px;
- padding:16px 20px
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ flex-shrink:0;
+ background:#09294c;
+ border:1px solid #24476d;
+ border-radius:10px;
+ padding:16px 20px;
 }
-.notice-item strong{color:var(--gold);font-size:16px}
+
+.notice-item strong{
+ color:var(--gold);
+ font-size:16px;
+}
+
 .notice-item a{
- color:#071a33;background:var(--gold);font-weight:900;
- padding:8px 16px;border-radius:20px;text-decoration:none;white-space:nowrap
+ color:#071a33;
+ background:var(--gold);
+ font-weight:900;
+ padding:8px 16px;
+ border-radius:20px;
+ text-decoration:none;
+ white-space:nowrap;
 }
-.notice-empty{text-align:center;color:var(--muted);padding:15px}
+
+.notice-item a:hover{
+ background:#ffdc78;
+}
+
+.notice-date{
+ color:var(--muted);
+ font-size:12px;
+ display:block;
+ margin-top:4px;
+}
+
+.notice-empty{
+ text-align:center;
+ color:var(--muted);
+ padding:15px;
+}
+
+/* Notice scrollbar */
+.notice-list::-webkit-scrollbar{
+ width:7px;
+}
+
+.notice-list::-webkit-scrollbar-thumb{
+ background:var(--gold);
+ border-radius:10px;
+}
+
+.notice-list::-webkit-scrollbar-track{
+ background:#09294c;
+ border-radius:10px;
+}
 
 /* ADMISSION */
 .admission{
@@ -291,6 +355,41 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
  .reveal{opacity:1;transform:none}
 }
+
+/* AUTOMATIC CONTENT */
+[hidden]{display:none!important}
+
+#gallery-grid:empty{display:none}
+
+.gallery-item{
+ padding:0;
+ min-height:150px;
+}
+
+.gallery-item a{
+ display:block;
+ width:100%;
+}
+
+.gallery-item img{
+ width:100%;
+ height:230px;
+ object-fit:cover;
+ display:block;
+}
+
+.notice-item{
+ min-height:65px;
+}
+
+.notice-item strong{
+ overflow-wrap:anywhere;
+}
+
+@media(max-width:560px){
+ .gallery-item img{height:150px}
+}
+
 </style>
 </head>
 
@@ -331,8 +430,7 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
   <div class="reg">Reg. No. – IV-130100044/2026 <span class="powered"> &nbsp; | &nbsp; Powered by <strong style="display:inline">M.M. GROUP</strong></span></div>
  </div>
 </section>
-
-<!-- WHAT'S NEW: Add banner images in assets folder -->
+<!-- AUTOMATIC WHAT'S NEW -->
 <section class="whatsnew" id="whats-new" aria-label="What's New">
  <div class="container">
   <div class="section-head">
@@ -341,21 +439,12 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
    <p>Discover our latest offers, new facilities and important updates.</p>
   </div>
 
-  <div class="slider">
-   <div class="slides" id="slides">
-    <a class="slide" href="assets/whats-new-1.png" target="_blank" rel="noopener">
-     <img src="assets/whats-new-1.png" alt="Latest school offer or announcement" onerror="this.parentElement.style.display='none'">
-    </a>
-    <a class="slide" href="assets/whats-new-2.png" target="_blank" rel="noopener">
-     <img src="assets/whats-new-2.png" alt="New school facility announcement" onerror="this.parentElement.style.display='none'">
-    </a>
-    <a class="slide" href="assets/whats-new-3.png" target="_blank" rel="noopener">
-     <img src="assets/whats-new-3.png" alt="School latest update" onerror="this.parentElement.style.display='none'">
-    </a>
-   </div>
+  <div class="slider" id="whatsnew-slider">
+   <div class="slides" id="slides"></div>
   </div>
-  <div class="slider-dots" id="slider-dots" aria-label="Banner navigation"></div>
+  <div class="slider-dots" id="slider-dots"></div>
   <p class="slider-note">Latest offers, new facilities and school announcements</p>
+  <p class="slider-note" id="whatsnew-empty" hidden>No updates available right now.</p>
  </div>
 </section>
 
@@ -428,7 +517,7 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
  </div>
 </section>
 
-<!-- GALLERY: Add your photos later -->
+<!-- AUTOMATIC GALLERY -->
 <section class="gallery-section" id="gallery">
  <div class="container">
   <div class="section-head reveal">
@@ -436,15 +525,13 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
    <h2>Moments at M.M. English Medium Mission</h2>
    <p>A glimpse of our school, activities, celebrations and learning moments.</p>
   </div>
-  <div class="gallery-grid">
-   <div class="gallery-item"><div class="gallery-placeholder">📷<br>School Photos Coming Soon</div></div>
-   <div class="gallery-item"><div class="gallery-placeholder">📷<br>School Events Coming Soon</div></div>
-   <div class="gallery-item"><div class="gallery-placeholder">📷<br>Activities Coming Soon</div></div>
-  </div>
+
+  <div class="gallery-grid" id="gallery-grid"></div>
+  <p class="notice-empty" id="gallery-empty">Loading gallery...</p>
  </div>
 </section>
 
-<!-- NOTICE: Put PDF files inside assets/notices/ -->
+<!-- AUTOMATIC NOTICE -->
 <section class="notice-section" id="notice">
  <div class="container">
   <div class="section-head reveal">
@@ -452,16 +539,9 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
    <h2>Notices & Circulars</h2>
    <p>Read or download important school notices in PDF format.</p>
   </div>
-  <div class="notice-list">
-   <div class="notice-item">
-    <strong>School Notice 01</strong>
-    <a href="assets/notices/notice-1.pdf" target="_blank" rel="noopener">View PDF ↗</a>
-   </div>
-   <div class="notice-item">
-    <strong>School Notice 02</strong>
-    <a href="assets/notices/notice-2.pdf" target="_blank" rel="noopener">View PDF ↗</a>
-   </div>
-   <p class="notice-empty">New notices will be published here.</p>
+
+  <div class="notice-list" id="notice-list">
+   <p class="notice-empty">Loading notices...</p>
   </div>
  </div>
 </section>
@@ -529,86 +609,267 @@ footer{width:100%;background:#020d1d;padding:30px 5% 18px;border-top:1px solid #
  </div>
  <div class="copyright">© <span id="year"></span> M.M. GROUP . All rights reserved.</div>
 </footer>
-
 <script>
-document.getElementById('year').textContent=new Date().getFullYear();
+document.getElementById('year').textContent = new Date().getFullYear();
 
-/* What's New automatic slider */
-const slidesTrack=document.getElementById('slides');
-const dotsContainer=document.getElementById('slider-dots');
+/* GITHUB SETTINGS */
+const GITHUB_OWNER = 'mmgroupofficial2026';
+const GITHUB_REPO = 'mm-english-medium-mission';
+const GITHUB_BRANCH = 'main';
 
-function getVisibleSlides(){
- return Array.from(slidesTrack.querySelectorAll('.slide')).filter(slide=>{
-  return slide.style.display!=='none' && slide.querySelector('img').complete && slide.querySelector('img').naturalWidth>0;
- });
+const API_BASE =
+ `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/assets/`;
+
+const RAW_BASE =
+ `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/assets/`;
+
+/* GET FILES FROM GITHUB */
+async function getFiles(folder) {
+ try {
+  const response = await fetch(
+   API_BASE + folder + '?ref=' + GITHUB_BRANCH,
+   {cache: 'no-store'}
+  );
+
+  if (!response.ok) {
+   throw new Error('GitHub API error: ' + response.status);
+  }
+
+  const files = await response.json();
+
+  if (!Array.isArray(files)) return [];
+
+  return files.filter(file => file.type === 'file');
+
+ } catch (error) {
+  console.error('Folder loading error:', folder, error);
+  return null;
+ }
 }
 
-let currentSlide=0;
-let slideTimer=null;
+/* FILE NAME DISPLAY */
+function displayName(filename) {
+ return filename
+  .replace(/\.[^/.]+$/, '')
+  .replace(/[-_]+/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+}
 
-function showSlide(index){
- const visibleSlides=getVisibleSlides();
- if(!visibleSlides.length){
-  slidesTrack.parentElement.style.display='none';
-  dotsContainer.style.display='none';
+/* AUTOMATIC NOTICE */
+async function loadNotices() {
+ const list = document.getElementById('notice-list');
+ const files = await getFiles('notices');
+
+ if (files === null) {
+  list.innerHTML = '<p class="notice-empty">Notices could not be loaded. Please try again later.</p>';
   return;
  }
- currentSlide=(index+visibleSlides.length)%visibleSlides.length;
- slidesTrack.style.transform='translateX(-'+(currentSlide*100)+'%)';
- Array.from(dotsContainer.children).forEach((dot,i)=>{
-  dot.classList.toggle('active',i===currentSlide);
+
+ const pdfs = files
+  .filter(file => /\.pdf$/i.test(file.name))
+  .sort((a,b) => a.name.localeCompare(b.name));
+
+ list.innerHTML = '';
+
+ if (pdfs.length === 0) {
+  list.innerHTML = '<p class="notice-empty">No notices available right now.</p>';
+  return;
+ }
+
+ pdfs.forEach(file => {
+  const item = document.createElement('div');
+  item.className = 'notice-item';
+
+  const title = document.createElement('strong');
+  title.textContent = displayName(file.name);
+
+  const link = document.createElement('a');
+  link.href = file.download_url;
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.textContent = 'View PDF ↗';
+
+  item.appendChild(title);
+  item.appendChild(link);
+  list.appendChild(item);
  });
 }
 
-function setupSlider(){
- const allSlides=Array.from(slidesTrack.querySelectorAll('.slide'));
- const validSlides=allSlides.filter(slide=>{
-  const img=slide.querySelector('img');
-  return img.complete && img.naturalWidth>0;
- });
+/* AUTOMATIC GALLERY */
+async function loadGallery() {
+ const grid = document.getElementById('gallery-grid');
+ const empty = document.getElementById('gallery-empty');
 
- allSlides.forEach(slide=>{
-  if(!validSlides.includes(slide))slide.style.display='none';
- });
+ const files = await getFiles('gallery');
 
- dotsContainer.innerHTML='';
- validSlides.forEach((slide,index)=>{
-  const dot=document.createElement('button');
-  dot.className='slider-dot'+(index===0?' active':'');
-  dot.type='button';
-  dot.setAttribute('aria-label','Show banner '+(index+1));
-  dot.addEventListener('click',()=>{
+ if (files === null) {
+  empty.textContent = 'Gallery could not be loaded. Please try again later.';
+  return;
+ }
+
+ const images = files
+  .filter(file => /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name))
+  .sort((a,b) => a.name.localeCompare(b.name));
+
+ grid.innerHTML = '';
+
+ if (images.length === 0) {
+  empty.textContent = 'School photos will appear here soon.';
+  return;
+ }
+
+ empty.hidden = true;
+
+ images.forEach(file => {
+  const item = document.createElement('div');
+  item.className = 'gallery-item';
+
+  const link = document.createElement('a');
+  link.href = file.download_url;
+  link.target = '_blank';
+  link.rel = 'noopener';
+
+  const img = document.createElement('img');
+  img.src = file.download_url;
+  img.alt = displayName(file.name);
+  img.loading = 'lazy';
+
+  link.appendChild(img);
+  item.appendChild(link);
+  grid.appendChild(item);
+ });
+}
+
+/* AUTOMATIC WHAT'S NEW SLIDER */
+let currentSlide = 0;
+let slideTimer = null;
+
+async function loadWhatsNew() {
+ const track = document.getElementById('slides');
+ const dots = document.getElementById('slider-dots');
+ const slider = document.getElementById('whatsnew-slider');
+ const empty = document.getElementById('whatsnew-empty');
+
+ const files = await getFiles('whats-new');
+
+ if (files === null) {
+  slider.style.display = 'none';
+  empty.hidden = false;
+  empty.textContent = 'Updates could not be loaded. Please try again later.';
+  return;
+ }
+
+ const images = files
+  .filter(file => /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name))
+  .sort((a,b) => a.name.localeCompare(b.name));
+
+ track.innerHTML = '';
+ dots.innerHTML = '';
+ currentSlide = 0;
+
+ if (images.length === 0) {
+  slider.style.display = 'none';
+  dots.style.display = 'none';
+  empty.hidden = false;
+  return;
+ }
+
+ slider.style.display = '';
+ dots.style.display = '';
+ empty.hidden = true;
+
+ images.forEach((file, index) => {
+  const link = document.createElement('a');
+  link.className = 'slide';
+  link.href = file.download_url;
+  link.target = '_blank';
+  link.rel = 'noopener';
+
+  const img = document.createElement('img');
+  img.src = file.download_url;
+  img.alt = displayName(file.name);
+  img.loading = index === 0 ? 'eager' : 'lazy';
+
+  link.appendChild(img);
+  track.appendChild(link);
+
+  const dot = document.createElement('button');
+  dot.className = 'slider-dot';
+  dot.type = 'button';
+  dot.setAttribute('aria-label', 'Show banner ' + (index + 1));
+
+  dot.addEventListener('click', () => {
    showSlide(index);
-   clearInterval(slideTimer);
    startSlider();
   });
-  dotsContainer.appendChild(dot);
+
+  dots.appendChild(dot);
  });
 
  showSlide(0);
- if(validSlides.length>1)startSlider();
+
+ if (images.length > 1) {
+  startSlider();
+ }
 }
 
-function startSlider(){
+function showSlide(index) {
+ const track = document.getElementById('slides');
+ const dots = document.getElementById('slider-dots');
+ const total = track.children.length;
+
+ if (total === 0) return;
+
+ currentSlide = (index + total) % total;
+
+ track.style.transform =
+  'translateX(-' + (currentSlide * 100) + '%)';
+
+ Array.from(dots.children).forEach((dot, i) => {
+  dot.classList.toggle('active', i === currentSlide);
+ });
+}
+
+function startSlider() {
  clearInterval(slideTimer);
- slideTimer=setInterval(()=>{
-  showSlide(currentSlide+1);
- },4500);
+
+ if (document.getElementById('slides').children.length > 1) {
+  slideTimer = setInterval(() => {
+   showSlide(currentSlide + 1);
+  }, 4500);
+ }
 }
 
-window.addEventListener('load',setupSlider);
+/* LOAD ALL AUTOMATIC SECTIONS */
+async function loadWebsiteContent() {
+ await Promise.all([
+  loadNotices(),
+  loadGallery(),
+  loadWhatsNew()
+ ]);
+}
 
-/* Reveal animation */
-if('IntersectionObserver' in window){
- const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
-  if(entry.isIntersecting){
-   entry.target.classList.add('visible');
-   observer.unobserve(entry.target);
-  }
- }),{threshold:.12});
- document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-}else{
- document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+loadWebsiteContent();
+
+/* REVEAL ANIMATION */
+if ('IntersectionObserver' in window) {
+ const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+   if (entry.isIntersecting) {
+    entry.target.classList.add('visible');
+    observer.unobserve(entry.target);
+   }
+  });
+ }, {threshold: 0.12});
+
+ document.querySelectorAll('.reveal').forEach(el => {
+  observer.observe(el);
+ });
+} else {
+ document.querySelectorAll('.reveal').forEach(el => {
+  el.classList.add('visible');
+ });
 }
 </script>
 </body>
